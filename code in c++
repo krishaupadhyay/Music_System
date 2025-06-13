@@ -1,0 +1,73 @@
+//it's code in c++ language 
+#include<iostream>
+#include <vector>
+#include <string>
+
+
+using namespace std;
+
+class music_player{
+private:
+
+public:
+
+void display_functions(){
+    cout<<"Dislpaying functionalities of music palyer"<<endl;
+    cout << "1. Play Music\n";
+    cout << "2. Pause/Stop Music\n";
+    cout << "3. Quit\n";
+
+}
+
+void playMusic() {
+    string filename;
+    cout << "Enter the filename to play: "<<endl;
+    // getline(cin, filename);
+    cin>>filename;
+
+    if (filename.empty()) {
+        cout << "Filename cannot be empty!\n";
+        return;
+    }
+
+    string command = "start wmplayer \"" + filename + "\""; 
+    cout << "Executing command: " << command << endl;
+    system(command.c_str());//command.c_str() converts the std::string to a const char* (which is what system() understands).
+}
+
+
+void pauseMusic() {
+    cout << "Stopping music...\n";
+    system("taskkill /IM wmplayer.exe /F");//Forcefully shuts it down, without asking for permission or waiting.
+}
+
+
+};
+int main(){
+    music_player m1;
+m1.display_functions();
+int n;
+
+while(1){
+    cout << "Enter your choice: ";
+    cin>>n;
+      if(n==3){
+       break;
+        }
+    switch(n){
+      
+        case 1:
+        m1.playMusic();
+        break;
+        case 2:
+        m1.pauseMusic();
+        break;
+
+        default:
+        cout << "Invalid choice. Please enter 1, 2, or 3.\n";
+        break;
+
+    }}
+    
+    return 0 ;
+}
