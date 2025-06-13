@@ -1,0 +1,65 @@
+//it's my first project 
+ #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+void playMusic(const char *filename) {
+        char command[256];
+        snprintf(command, sizeof(command), "start wmplayer \"%s\"", filename); 
+        printf("Executing command: %s\n", command);
+        system(command);
+}
+void pauseMusic() {
+        system("taskkill /IM wmplayer.exe /F");
+        //taskkill =to terminate specific task
+        //IM-option specifies the image name
+        // system()- Executes a command string in the shell (command-line interface).
+}
+int main() {
+    char command[100];
+    char filename[256];
+    int running = 1;
+
+    printf("::::::::::::Simple Music Player:::::::::::::\n");
+    printf("::::::::::::Commands:::::::::::::\n");
+    printf("  play <filename> - Play the specified audio file\n");
+    printf("  pause - Stop the currently playing audio\n");
+    printf("  quit - Exit the music player\n");
+
+    while (running) {
+        printf("\nEnter a command: ");
+        fgets(command, sizeof(command), stdin);
+
+        // Remove newline character at the end of the input
+        command[strcspn(command, "\n")] = 0;
+        //  command[5]=\0;
+        if (strncmp(command, "play", 4) == 0) {
+            // Play a file
+            if (sscanf(command, "play %[^\n]", filename) == 1) {
+                printf("Playing: %s\n", filename);
+                playMusic(filename);
+            } else {
+                printf("Usage: play <filename>\n");
+            }
+        }
+        else if (strncmp(command, "pause", 5) == 0) {
+            // Stop music
+            printf("Stopping music...\n");
+            pauseMusic();
+        }
+        else if (strncmp(command, "quit", 4) == 0) {
+            
+            printf("Exiting music player.\n");
+            pauseMusic();  
+            running = 0;
+        }
+        else {
+            printf("Unknown command: %s\n", command);
+        }
+    }
+    return 0;
+}
+
+
+
+
